@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <img width="600" src="./banner.png" alt="La Mansión de Simón" />
+  <img width="600" src="./SIMONS_MANSION.png" alt="La Mansión de Simón" />
 </p>
 
 ---
