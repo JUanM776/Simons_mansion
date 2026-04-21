@@ -1,11 +1,11 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.7+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/Plataforma-Terminal-black?style=for-the-badge&logo=windowsterminal&logoColor=white" />
-  <img src="https://img.shields.io/badge/Género-Misterio%20Narrativo-8B0000?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Género-Horror%20Narrativo-8B0000?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Idioma-Español-F1C40F?style=for-the-badge" />
 </p>
 
-<h1 align="center">🏚️ LA MANSIÓN DE SIMÓN</h1>
+<h1 align="center">LA MANSION DE SIMON</h1>
 
 <p align="center">
   <i>Una historia de secretos, silencios y supervivencia</i>
@@ -17,19 +17,19 @@
 
 ---
 
-## 📖 Sinopsis
+## Sinopsis
 
 Son las tres de la tarde. Una mansión antigua recibe a **cinco desconocidos** que, sin embargo, no lo son del todo entre sí. Los une un nombre: **Simón**. Un pintor. Un hombre que, según les comunicaron hace pocos días, ha muerto.
 
 Pero cada uno llegó con algo más que condolencias. Cada uno llegó con **una razón propia, silenciosa**, que no piensa compartir con nadie.
 
-Lo que ninguno sabe es que **no están solos**. En algún rincón de la casa, alguien más aguarda. Y esa razón es mucho más oscura que todas las demás juntas.
+Lo que ninguno sabe es que **no están solos**. En algún rincón de la casa, alguien más aguarda. Alguien que también tiene una razón para estar ahí, y esa razón es mucho más oscura que todas las demás juntas.
 
 > *El jugador observa. El jugador explora. El jugador decide quién sobrevive.*
 
 ---
 
-## 🎮 Cómo Jugar
+## Cómo Jugar
 
 ```bash
 python la_mansion_de_simon.py
@@ -37,17 +37,17 @@ python la_mansion_de_simon.py
 
 **Requisitos:** Python 3.7 o superior. Sin dependencias externas.
 
-El juego se controla completamente con el teclado. Lee, explora, elige.
+El juego se controla completamente con el teclado. Lee, explora, elige. Cada decisión tiene consecuencias permanentes.
 
 ---
 
-## 🧩 Mecánicas
+## Mecánicas
 
 ### Sistema de Aislamiento
 
-No es el asesino lo que mata a los personajes. **Es la soledad.**
+No es el asesino lo que mata a los personajes directamente. **Es la soledad.** El asesino solo termina lo que el aislamiento empezó.
 
-Cada personaje tiene un nivel de aislamiento (0–100) que funciona como la verdadera tensión narrativa del juego:
+Cada personaje tiene un nivel de aislamiento (0-100) que funciona como la verdadera tensión narrativa del juego:
 
 | Acción | Efecto |
 |--------|--------|
@@ -57,7 +57,7 @@ Cada personaje tiene un nivel de aislamiento (0–100) que funciona como la verd
 | Encontrar una pista que valida su historia | **-10** aislamiento |
 | Terminar capítulo con todos presentes | **-5** colectivo |
 
-> ⚠️ Si el aislamiento de un personaje supera **75** al final de un capítulo, abandona la mansión para siempre.
+Si el aislamiento de un personaje supera **75** al final de un capítulo, esa persona se separará del grupo. Y quien se separa del grupo en esta mansión **no sobrevive**.
 
 ### Exploración Libre
 
@@ -66,13 +66,13 @@ Cada escenario tiene pistas ocultas que puedes examinar libremente. Lo que encue
 ### Decisiones con Consecuencias
 
 Cada capítulo termina con una decisión que afecta directamente:
-- Quién sigue en el grupo
+- Quién vive y quién muere
 - Qué información tienes disponible
 - Cómo termina la historia
 
 ---
 
-## 🏛️ Los Cinco Escenarios
+## Los Cinco Escenarios
 
 ```
                     ┌─────────────────────┐
@@ -100,7 +100,7 @@ Cada capítulo termina con una decisión que afecta directamente:
 
 ---
 
-## 👥 Los Personajes
+## Los Personajes
 
 | Personaje | Rol | Secreto |
 |-----------|-----|---------|
@@ -113,31 +113,32 @@ Cada capítulo termina con una decisión que afecta directamente:
 
 ---
 
-## 🔚 Finales
+## Finales
 
-El juego tiene **5 finales** que dependen enteramente de tus decisiones:
+El juego tiene **5 finales** que dependen enteramente de tus decisiones. Ninguno es seguro. Solo uno tiene un hilo de esperanza, y aun ese tiene un precio.
 
 | Final | Condición |
 |-------|-----------|
-| ✦ **La Mansión los Soltó** | Todos vivos, todos los objetos, Simón rescatado |
-| ◆ **Verdad a Medias** | 4+ sobrevivientes, Simón rescatado |
-| ▲ **El Costo del Silencio** | 2-3 sobrevivientes, Simón rescatado |
-| ● **Solo** | 1 sobreviviente, Simón rescatado |
-| ■ **Lo que la Mansión se Quedó** | Simón no fue encontrado |
+| **La Mansión los Soltó** | Todos vivos, todos los objetos, Simón rescatado |
+| **Los Marcados** | 4+ sobrevivientes, Simón rescatado |
+| **La Herencia** | 2-3 sobrevivientes, Simón rescatado |
+| **El Espejo** | 1 sobreviviente, Simón rescatado |
+| **Lo que la Mansión se Quedó** | Simón no fue encontrado |
 
 ---
 
-## 📁 Estructura
+## Estructura
 
 ```
 la-mansion-de-simon/
-├── la_mansion_de_simon.py   # Juego completo
-└── README.md                # Este archivo
+├── SIMONS_MANSION.png         # Portada del juego
+├── la_mansion_de_simon.py     # Juego completo
+└── README.md                  # Este archivo
 ```
 
 ---
 
-## 🖥️ Capturas
+## Captura
 
 ```
   ══════════════════════════════════════════════════════════════
@@ -149,18 +150,18 @@ la-mansion-de-simon/
     de adelanto, como hacía siempre, como si la puntualidad
     fuera una forma de demostrar que tenía el control de algo.
 
-  ── Estado del grupo ──────────────────────────────────────
+  -- Estado del grupo ------------------------------------------
 
     Ben       ██░░░░░░░░  20  ~ medio
-    Lisa      ░░░░░░░░░░   0  ✓ estable
+    Lisa      ░░░░░░░░░░   0  estable
     Robert    ███░░░░░░░  30  ~ medio
-    Ana       █░░░░░░░░░  10  ✓ estable
-    Lucas     ░░░░░░░░░░   0  ✓ estable
+    Ana       █░░░░░░░░░  10  estable
+    Lucas     ░░░░░░░░░░   0  estable
 ```
 
 ---
 
-## 🎨 Créditos
+## Créditos
 
 - **Guión y diseño narrativo:** Biblia de juego original — *La Mansión de Simón*
 - **Desarrollo:** Adaptación a consola en Python
