@@ -67,7 +67,7 @@ def dialogo(nombre, texto, pausa_final=True):
     if pausa_final:
         print()
 
-def dialogo_roto(nombre, texto):
+def dialogo_roto(nombre, texto, pausa_final=True):
     """Diálogo entrecortado, como si costara hablar."""
     prefijo = f"  {nombre.upper()}: "
     sys.stdout.write(prefijo)
@@ -79,7 +79,9 @@ def dialogo_roto(nombre, texto):
             time.sleep(random.uniform(0.08, 0.3))
         else:
             time.sleep(random.uniform(0.03, 0.08))
-    print("\n")
+    print()
+    if pausa_final:
+        print()
 
 def acotacion(texto):
     """Texto entre paréntesis, más sutil."""
@@ -238,7 +240,7 @@ class Estado:
              "Estuche de cuero con joyas familiares", "Estudio"),
             ("Lucas", "El Relicario", 27, "Estudiante, ex-ayudante de Simón",
              "Tomó un relicario de plata que pertenecía a Simón",
-             "Relicario de plata con inscripción", "Sala de cámaras"),
+             "Relicario de plata con inscripción", "Sala de vigilancia"),
         ]
         for d in datos:
             p = Personaje(*d)
@@ -318,6 +320,10 @@ def prologo():
     pantalla_negra(1.5)
 
     titulo("P R E M I S A")
+    print(f"\033[2m{'Europa, 1943. La guerra devora el continente.':^{W}}\033[0m")
+    print(f"\033[2m{'Pero aquí, lejos del frente, hay otros tipos de guerra.':^{W}}\033[0m")
+    print()
+    time.sleep(1)
     escribir_lento("Son las tres de la tarde.")
     time.sleep(0.5)
     narrar("Una mansión antigua, de paredes que huelen a barniz viejo "
@@ -378,7 +384,10 @@ def capitulo_1():
            "forma de demostrar que tenía el control de algo.")
     narrar("El lobby olía a polvo y a rosas secas. Techos altos con molduras "
            "de yeso amarillento, una escalera central de madera oscura, "
-           "sillones de cuero rojo envejecido, una chimenea apagada.")
+           "sillones de cuero rojo envejecido, una chimenea apagada. "
+           "Un gramófono de latón descansaba en la esquina, con un disco "
+           "puesto que nadie recordaba haber colocado. En la radio de "
+           "válvulas junto a la ventana, solo estática.")
     pausa()
 
     narrar("Ana llegó a las tres en punto. Entró con la seguridad de quien "
@@ -387,8 +396,8 @@ def capitulo_1():
     narrar("Ben llegó tres minutos después, con la corbata aflojada y una "
            "expresión de alguien que lleva semanas sin dormir bien. "
            "Lanzó un 'buenas tardes' demasiado animado que no convenció a nadie.")
-    narrar("Lucas fue el cuarto. Llegó con una mochila al hombro y los "
-           "auriculares colgando del cuello. Cuando vio a los otros tres, "
+    narrar("Lucas fue el cuarto. Llegó con un maletín de cuero gastado y "
+           "un sombrero que se quitó al entrar. Cuando vio a los otros tres, "
            "se detuvo un momento, sorprendido de no ser el único.")
     narrar("Lisa llegó la última, a las tres y cuarto. Entró mirando cada "
            "detalle del espacio con ojos profesionales. Eligió el sillón "
@@ -547,7 +556,7 @@ def _dialogo_c1(nombre):
         dialogo("BEN", "Simón y yo éramos socios, de cierta forma. Él pintaba, "
                 "yo me encargaba del lado financiero. Muy informal, ya sabe. "
                 "Sin contratos de por medio. La gente creativa suele preferirlo así.")
-        acotacion("Saca el teléfono, lo mira, lo guarda.")
+        acotacion("Saca un reloj de bolsillo, lo mira, lo guarda.")
         dialogo("BEN", "La verdad es que me enteré de su muerte y quise "
                 "venir a... no sé, despedirme. Algo así.", False)
         acotacion("Hay algo en su voz que no alcanza a esconder. "
@@ -644,7 +653,7 @@ def explorar_estudio():
         if "contabilidad" not in visto:
             ops.append("Revisar el libro de contabilidad abierto")
         if "nota" not in visto:
-            ops.append("Leer la nota adhesiva en el monitor")
+            ops.append("Leer la nota clavada en el tablón del escritorio")
         if "corcho" not in visto:
             ops.append("Estudiar el tablero de corcho con fotografías")
         if "archivador" not in visto:
@@ -675,9 +684,9 @@ def explorar_estudio():
 
         elif "nota" in sel:
             visto.add("nota")
-            narrar("Una nota amarilla pegada al monitor apagado:")
-            dialogo("NOTA", "Copia de seguridad hecha. Ellos no saben que "
-                    "tengo el segundo juego.")
+            narrar("Una nota clavada con un alfiler en el tablón sobre el escritorio:")
+            dialogo("NOTA", "Segunda copia hecha. Ellos no saben que "
+                    "tengo el duplicado.")
             acotacion("Sin contexto adicional. Pero la palabra 'ellos' "
                       "implica que Simón sabía que alguien lo vigilaba.")
             G.guardar_pista("segunda_copia")
@@ -1054,7 +1063,7 @@ def explorar_galeria():
         if "sabana" not in visto:
             ops.append("Levantar la sábana del cuadro central")
         if "grabador" not in visto:
-            ops.append("Reproducir el grabador de audio en la repisa")
+            ops.append("Examinar el fonógrafo en la repisa")
         if "codigo" not in visto:
             ops.append("Examinar el cuadro abstracto con números en la firma")
         if "mancha" not in visto:
@@ -1077,11 +1086,12 @@ def explorar_galeria():
                       "Sabía que vendrían. Sabía quiénes serían.")
             G.guardar_pista("cuadro_cinco")
 
-        elif "grabador" in sel:
+        elif "fonógrafo" in sel:
             visto.add("grabador")
-            narrar("Un pequeño grabador digital sobre la repisa, con la "
-                   "pantalla encendida en pausa. Al reproducirlo se escucha "
-                   "la voz de Simón, inconfundible:")
+            narrar("Un fonógrafo de mesa sobre la repisa, con un cilindro "
+                   "de cera ya colocado. Al girar la manivela se escucha "
+                   "la voz de Simón, distorsionada por el medio pero "
+                   "inconfundible:")
             dialogo("SIMÓN", "Están en la casa. No sé cuántos. Pero no son "
                     "todos enemigos. Algunos solo tienen miedo.")
             acotacion("La voz es reciente. Cansada pero firme. "
@@ -1165,9 +1175,9 @@ def _dialogo_c4(nombre):
                 "ese alguien está en esta habitación con nosotros ahora mismo.", False)
 
     elif nombre == "Ben":
-        acotacion("Ben ha encontrado el grabador antes que tú. Cuando llegas, "
-                  "está escuchando con el grabador pegado al oído, los ojos "
-                  "cerrados. Al darse cuenta de que no está solo, lo baja.")
+        acotacion("Ben ha encontrado el fonógrafo antes que tú. Cuando llegas, "
+                  "está inclinado sobre la bocina con los ojos cerrados, "
+                  "escuchando. Al darse cuenta de que no está solo, levanta la aguja.")
         dialogo("BEN", "Era su voz. La grabación. Era él.")
         acotacion("Traga saliva.")
         dialogo("BEN", "Mira, yo hice cosas que no debería haber hecho. "
@@ -1178,7 +1188,7 @@ def _dialogo_c4(nombre):
     elif nombre == "Lisa":
         dialogo("LISA", "La mancha del suelo, cerca de la puerta trasera. "
                 "Eso no es pintura. Conozco la diferencia.")
-        acotacion("Saca su teléfono y hace una foto desde lejos.")
+        acotacion("Saca una libreta y dibuja un croquis rápido de la escena.")
         dialogo("LISA", "Simón fue atacado aquí. O llevado desde aquí. "
                 "Lo que significa que quien lo tiene está en la casa y "
                 "probablemente sabe que estamos buscando. Necesitamos "
@@ -1295,37 +1305,39 @@ def capitulo_5():
 
 
 def explorar_sala_camaras():
-    titulo("S A L A   D E   C Á M A R A S", "Sótano de la mansión")
-    narrar("Una habitación pequeña y sin ventanas. Una hilera de monitores "
-           "mostraba las cámaras de cada habitación de la casa, aunque "
-           "varios están apagados o con la señal cortada.")
-    narrar("Hay una silla giratoria frente a los monitores, y en ella, "
-           "abandonado, un maletín de cuero negro. Los monitores que aún "
-           "funcionan muestran pasillos vacíos y una habitación con una "
-           "figura sentada, aunque la imagen es demasiado granulada.")
+    titulo("S A L A   D E   V I G I L A N C I A", "Sótano de la mansión")
+    narrar("Una habitación pequeña y sin ventanas. Las paredes están "
+           "cubiertas de espejos angulados y mirillas que conectan con "
+           "cada habitación de la casa mediante un sistema de tubos y "
+           "cristales. Un mecanismo ingenioso, casi paranoico.")
+    narrar("Hay una silla de madera frente al panel de mirillas, y en "
+           "ella, abandonado, un maletín de cuero negro. Las mirillas "
+           "que aún no están obstruidas muestran pasillos vacíos y una "
+           "habitación con una figura sentada, apenas visible.")
     visto = set()
     while True:
         ops = []
         if "monitor" not in visto:
-            ops.append("Examinar el monitor central activo")
+            ops.append("Mirar por la mirilla central")
         if "maletin" not in visto:
             ops.append("Abrir el maletín de cuero negro")
         if "disco" not in visto:
-            ops.append("Revisar el disco duro externo")
+            ops.append("Revisar los cilindros de fonógrafo almacenados")
         if "nota_roja" not in visto:
-            ops.append("Leer la nota con marcador rojo en el monitor")
+            ops.append("Leer la nota con tinta roja clavada en la pared")
         if "mapa_nuevo" not in visto:
             ops.append("Estudiar el mapa actualizado")
         ops.append("Continuar")
         e = elegir(ops)
         sel = ops[e - 1]
 
-        if "monitor central" in sel:
+        if "mirilla central" in sel:
             visto.add("monitor")
-            narrar("La imagen muestra una figura humana sentada en una silla "
-                   "en una habitación que podría ser cualquiera de las cinco "
-                   "del ala norte. La figura no se mueve. No es posible "
-                   "determinar si está atada o simplemente inmóvil.")
+            narrar("A través de la mirilla se distingue una figura humana "
+                   "sentada en una silla en una habitación que podría ser "
+                   "cualquiera de las cinco del ala norte. La figura no se "
+                   "mueve. No es posible determinar si está atada o "
+                   "simplemente inmóvil.")
             G.guardar_pista("figura_monitor")
 
         elif "maletín" in sel:
@@ -1338,11 +1350,13 @@ def explorar_sala_camaras():
             if "Lucas" in G.presentes():
                 G.p("Lucas").conectar(20)
 
-        elif "disco duro" in sel:
+        elif "cilindros" in sel:
             visto.add("disco")
-            narrar("Los archivos tienen fechas de los últimos seis meses. "
-                   "El archivo más reciente, de hace dos días, muestra a "
-                   "Simón hablando con alguien fuera de cuadro. Simón dice:")
+            narrar("Hay una docena de cilindros de cera etiquetados con "
+                   "fechas de los últimos seis meses. El más reciente, de "
+                   "hace dos días, al reproducirlo en el fonógrafo del "
+                   "rincón, se escucha a Simón hablando con alguien. "
+                   "Simón dice:")
             glitch(intensidad=2)
             dialogo_roto("SIMÓN", "No voy a callar más. Aunque eso me cueste la vida.")
             G.guardar_pista("grabacion_amenaza")
@@ -1359,7 +1373,7 @@ def explorar_sala_camaras():
             narrar("Una versión más reciente del mapa dibujado a mano. "
                    "Una habitación del ala norte está marcada con una X roja "
                    "y la palabra 'aquí' escrita al lado. Es la misma "
-                   "habitación que aparece en el monitor.")
+                   "habitación que se ve por la mirilla.")
             G.guardar_pista("ubicacion_simon")
         else:
             break
@@ -1408,10 +1422,10 @@ def _encontrar_objeto(nombre):
     elif nombre == "Lucas":
         if G.tiene("relicario_encontrado"):
             narrar("Lucas ya tiene el relicario. Lo sostiene en la palma "
-                   "de la mano, leyendo la inscripción una vez más.")
+                   "de la mano, pasando el pulgar por la inscripción.")
         else:
             narrar("Lucas encuentra el relicario en el maletín de la sala "
-                   "de cámaras. Lo toma con ambas manos, lo abre y lee "
+                   "de vigilancia. Lo toma con ambas manos, lo abre y lee "
                    "la inscripción interior: 'Para Lucas. Siempre.'")
         acotacion("Lo cierra. Lo guarda. Toma una decisión silenciosa "
                   "que nadie más ve.")
@@ -1427,8 +1441,8 @@ def el_rescate():
            "oscuro, con el tipo de silencio que no es ausencia de sonido "
            "sino presencia de algo que aguarda.")
     if G.tiene("advertencia_norte"):
-        narrar("No usan las luces. Usan las linternas de los teléfonos, "
-               "apuntando al suelo.")
+        narrar("No usan las luces. Encienden las velas que encontraron "
+               "en el lobby, protegiendo la llama con la mano.")
     else:
         narrar("Encienden las luces del pasillo. El fluorescente parpadea "
                "dos veces antes de estabilizarse.")
@@ -1550,7 +1564,7 @@ def _escena_rescate_directo():
     if "Ana" in vivos:
         narrar("Ana sostuvo la linterna para que pudieran ver mejor el nudo.")
     if "Lisa" in vivos:
-        narrar("Lisa grabó el estado de la habitación con su teléfono, "
+        narrar("Lisa sacó su libreta y dibujó un croquis de la habitación, "
                "metódica incluso en ese momento.")
     if "Lucas" in vivos:
         narrar("Lucas fue el último en entrar al cuarto, y cuando lo hizo, "
@@ -1600,7 +1614,7 @@ def _escena_rescate_directo():
         narrar("Cada uno se toma un momento. Ben mira el estudio una última "
                "vez. Robert toca el marco de la puerta del lobby como "
                "despidiéndose de algo que nunca tuvo. Ana recorre la galería "
-               "con los ojos. Lisa guarda su grabadora sin usarla. "
+               "con los ojos. Lisa guarda su libreta sin escribir nada. "
                "Lucas mira la fachada desde la ventana.")
         for n in G.presentes(): G.p(n).conectar(15)
     else:
@@ -1622,359 +1636,309 @@ def _escena_rescate_directo():
         for n in G.presentes(): G.p(n).aislar(5)
 
 # ══════════════════════════════════════════════════════════════
-#  FINALES
+#  EL FINAL
 # ══════════════════════════════════════════════════════════════
 
 def determinar_final():
+    """Nadie sale vivo. Lo que cambia es cuánto saben antes de morir."""
     vivos = G.presentes()
-    n = len(vivos)
-    objetos = sum(1 for p in G.personajes.values() if p.objeto_encontrado)
-
-    if G.simon_encontrado and n == 5 and objetos == 5:
-        final_esperanza(vivos)
-    elif G.simon_encontrado and n >= 4:
-        final_marcados(vivos, n)
-    elif G.simon_encontrado and n >= 2:
-        final_herencia(vivos, n)
-    elif G.simon_encontrado and n >= 1:
-        final_espejo(vivos)
-    else:
-        final_mansion()
-
-
-# ── FINAL 1: El único con un hilo de esperanza ──────────────
-
-def final_esperanza(vivos):
-    titulo("L A   M A N S I Ó N   L O S   S O L T Ó",
-           "Todos vivos — Simón rescatado")
-    time.sleep(1.5)
-    narrar("Salieron juntos. Los seis. La puerta principal se abrió con "
-           "un crujido que sonó distinto a cuando entraron, como si la "
-           "casa exhalara algo que llevaba mucho tiempo conteniendo.")
-    time.sleep(0.5)
-    narrar("Afuera, el aire de la noche estaba frío y limpio. El tipo "
-           "de frío que duele en los pulmones pero que se siente como "
-           "estar vivo.")
-    pausa()
-
-    narrar("Ben miró el cielo. Por primera vez en horas su mandíbula "
-           "no estaba apretada. Robert abrió la puerta de su coche y se "
-           "quedó parado junto a ella, con la carta del padre en el "
-           "bolsillo interior, pesando más que todo lo demás. Ana llamó "
-           "a alguien desde su teléfono en voz muy baja, con las joyas "
-           "intactas en el bolso y la certeza de que nunca volvería a "
-           "tocarlas. Lisa sacó su grabadora de periodista, la miró un "
-           "momento largo, y la guardó sin usarla. Lucas miró la fachada "
-           "de la mansión una última vez con el relicario en el bolsillo, "
-           "devuelto y perdonado.")
-    pausa()
-
-    narrar("Simón se sentó en el escalón de la entrada. Las muñecas "
-           "enrojecidas. Los labios agrietados. Los ojos hundidos pero "
-           "abiertos. Respiró el aire exterior despacio, como si tuviera "
-           "que recordar cómo se hacía.")
-    time.sleep(1)
-    narrar("Nadie habló. No hacía falta. Habían entrado como cinco "
-           "desconocidos con secretos y salían como seis personas que "
-           "sabían demasiado las unas de las otras para volver a ser "
-           "extraños.")
-    pausa()
-
-    narrar("Pero.")
-    time.sleep(1)
-    narrar("Mientras los coches arrancaban y las luces traseras se "
-           "alejaban por el camino de tierra, Simón seguía sentado en "
-           "el escalón. No se movió. No subió a ningún coche.")
-    narrar("Miró hacia la puerta abierta de la mansión. Hacia la "
-           "oscuridad del lobby que lo esperaba como una boca paciente.")
-    time.sleep(0.5)
-    narrar("Y sonrió.")
-    time.sleep(1)
-    narrar("Fue una sonrisa pequeña. Breve. El tipo de sonrisa que "
-           "tiene alguien que sabe algo que los demás no saben. "
-           "Que quizás siempre supo.")
-    pausa()
-
-    narrar("A la mañana siguiente, cuando la policía llegó a la mansión "
-           "siguiendo la llamada de Lisa, encontraron las cuerdas en la "
-           "habitación del ala norte. Encontraron la sangre en la galería. "
-           "Encontraron las huellas, las notas, las grabaciones.")
-    narrar("No encontraron a Simón.")
-    time.sleep(0.5)
-    narrar("La puerta principal estaba cerrada con llave. Desde adentro.")
-    time.sleep(1)
-
-    escribir_lento("Todos sobrevivieron. Todos salieron.")
-    time.sleep(0.5)
-    escribir_lento("Pero ninguno puede explicar por qué, algunas noches, "
-                   "sueñan con una mansión que huele a barniz viejo "
-                   "y con una sonrisa que no deberían haber visto.")
-    time.sleep(1.5)
-    print(f"\n{'F I N':^{W}}\n")
-    print(f"\033[2m{'La Mansión de Simón':^{W}}\033[0m\n")
-
-
-# ── FINAL 2: Los que salieron quedaron marcados ─────────────
-
-def final_marcados(vivos, n):
+    n_vivos = len(vivos)
     muertos = [nm for nm, p in G.personajes.items() if not p.presente]
-    titulo("L O S   M A R C A D O S",
-           f"{n} sobrevivientes — Simón rescatado")
-    time.sleep(1.5)
-    narrar(f"Salieron {n + 1} personas de la mansión esa noche. "
-           f"No todos los que entraron.")
-    narrar(f"{', '.join(muertos)} no llegó al final. El aislamiento "
-           f"los separó del grupo. Y quien acecha en la mansión cazó "
-           f"a los que se quedaron solos.")
-    pausa()
+    n_muertos = len(muertos)
 
-    narrar("Los sobrevivientes caminaron hacia los coches en silencio. "
-           "Simón iba entre ellos, apoyado en alguien, arrastrando los "
-           "pies. Nadie miró atrás. Nadie quiso ver la mansión una "
-           "última vez.")
-    narrar("Pero la mansión los vio a ellos.")
-    pausa()
-
-    narrar("Las semanas siguientes fueron extrañas. Cada sobreviviente "
-           "notó lo mismo sin decírselo a los demás: una sensación de "
-           "ser observado. En el supermercado. En el trabajo. En la "
-           "cama, a las tres de la mañana, cuando el cuerpo se despierta "
-           "sin razón y los ojos buscan algo en la oscuridad del cuarto "
-           "que no deberían encontrar.")
-    narrar("Pero lo peor no era la sensación.")
-    time.sleep(0.5)
-    narrar("Lo peor eran las fotografías.")
-    pausa()
-
-    narrar("Empezaron a llegar por correo. Sin remitente. Sin sello "
-           "postal. Sobres blancos con una sola foto adentro. Cada "
-           "sobreviviente recibió la suya: una imagen de ellos mismos "
-           "tomada desde algún lugar cercano. Durmiendo. Caminando. "
-           "Cenando con la familia.")
-    narrar("Al dorso de cada foto, la misma letra. La misma tinta roja. "
-           "La misma frase:")
-    time.sleep(0.5)
-    dialogo("FOTO", "Todavía no terminé.")
-    time.sleep(1)
-
-    narrar("Simón desapareció tres días después del rescate. Su "
-           "departamento estaba vacío. La cama hecha. Ninguna señal "
-           "de lucha. Solo una cosa fuera de lugar: en el centro de "
-           "la mesa del comedor, un pincel mojado en pintura roja.")
-    time.sleep(0.5)
-    narrar("Nadie volvió a verlo.")
-    time.sleep(1)
-
-    escribir_lento("Salieron de la mansión.")
-    time.sleep(0.3)
-    escribir_lento("Pero la mansión no salió de ellos.")
-    time.sleep(1.5)
-    print(f"\n{'F I N':^{W}}\n")
-    print(f"\033[2m{'La Mansión de Simón':^{W}}\033[0m\n")
-
-
-# ── FINAL 3: El asesino hereda los secretos ─────────────────
-
-def final_herencia(vivos, n):
-    muertos = [nm for nm, p in G.personajes.items() if not p.presente]
-    titulo("L A   H E R E N C I A",
-           f"{n} sobrevivientes — Simón rescatado")
-    time.sleep(1.5)
-    narrar("El aislamiento hizo su trabajo. Uno a uno, los que se "
-           "separaron del grupo fueron cazados en silencio. La mansión "
-           "se los tragó como traga el polvo y los secretos.")
-    narrar(f"Solo {', '.join(vivos)} estaban ahí cuando desataron a Simón.")
-    pausa()
-
-    narrar("Salieron por la puerta principal. El aire de la noche los "
-           "golpeó como un puño frío. Simón apenas podía caminar. "
-           "Lo llevaron entre los que quedaban, arrastrando los pies "
-           "sobre la gravilla del camino.")
-    narrar("Nadie habló durante el trayecto. El silencio tenía el peso "
-           "de los cuerpos que dejaron atrás.")
-    pausa()
-
-    narrar("Tres semanas después, la policía cerró el caso. Muerte "
-           "accidental, dijeron de los cuerpos encontrados. Caídas. "
-           "Golpes. Circunstancias desafortunadas en una propiedad "
-           "vieja y mal mantenida. Nadie habló de asesinato. Nadie "
-           "habló de la sexta fotografía con la cinta negra.")
-    narrar("Pero los sobrevivientes sabían.")
-    pausa()
-
-    narrar("Fue Simón quien lo confirmó. Un mes después del rescate, "
-           "cada sobreviviente recibió un paquete. Dentro había un "
-           "cuadro pequeño, pintado con la técnica inconfundible de "
-           "Simón. Cada cuadro mostraba al destinatario en el momento "
-           "exacto de su muerte.")
-    time.sleep(0.5)
-    narrar("No la muerte que ocurrió. La muerte que habría ocurrido "
-           "si se hubieran quedado solos.")
-    time.sleep(0.5)
-    narrar("Cada cuadro era perfecto. Cada detalle, correcto. "
-           "La posición del cuerpo. La expresión del rostro. "
-           "El objeto que tendrían en la mano al morir.")
-    pausa()
-
-    narrar("Simón los había pintado antes de que llegaran a la mansión.")
-    time.sleep(1)
-    narrar("Todos los cuadros. Los de los muertos y los de los vivos. "
-           "Sabía exactamente cómo moriría cada uno si se quedaba solo. "
-           "Porque Simón no fue una víctima atrapada en su propia casa.")
-    time.sleep(0.5)
-    escribir_lento("Simón fue el cebo.")
-    time.sleep(1)
-    narrar("Y quien puso el cebo sigue ahí. En la mansión. "
-           "Esperando la próxima invitación.")
-    time.sleep(1.5)
-    print(f"\n{'F I N':^{W}}\n")
-    print(f"\033[2m{'La Mansión de Simón':^{W}}\033[0m\n")
-
-
-# ── FINAL 4: El sobreviviente se convierte en lo que temía ──
-
-def final_espejo(vivos):
-    nombre = vivos[0]
+    # ── ACTO 1: La falsa salida ──
     pantalla_negra(2)
-    titulo_horror("E L   E S P E J O",
-                  f"Un sobreviviente — Simón rescatado")
-    time.sleep(1.5)
-    narrar(f"Al final solo quedaban {nombre} y Simón. Dos personas en una "
-           f"mansión que olía a sangre y a barniz viejo.")
-    narrar("Los demás estaban muertos. Cada uno en su rincón. Cada uno "
-           "con su secreto convertido en epitafio. El aislamiento los "
-           "separó y la oscuridad hizo el resto.")
+
+    if G.simon_encontrado and n_vivos >= 3:
+        titulo("L A   S A L I D A")
+        narrar("Caminaron hacia la puerta principal. Simón iba entre ellos, "
+               "apoyado en alguien, arrastrando los pies. Nadie habló. "
+               "Los pasos sonaban huecos en la madera, como latidos de un "
+               "corazón que se apaga.")
+        if n_muertos > 0:
+            narrar(f"Pasaron junto a los lugares donde encontraron a "
+                   f"{', '.join(muertos)}. Nadie miró. Nadie quiso "
+                   f"confirmar que los cuerpos seguían ahí.")
+        narrar("La puerta principal estaba abierta. El aire de la noche "
+               "entró como algo vivo, frío, que olía a tierra mojada "
+               "y a libertad.")
+        narrar("Dieron un paso afuera. Dos. Tres.")
+        time.sleep(0.5)
+        narrar("Entonces la puerta se cerró detrás de ellos.")
+        time.sleep(0.5)
+        narrar("No. No se cerró. Alguien la cerró. Desde adentro.")
+        time.sleep(0.5)
+        narrar("Y las luces del camino de tierra se apagaron una a una, "
+               "como velas que alguien sopla con paciencia, dejándolos "
+               "en una oscuridad que no era la de la noche. Era más "
+               "densa. Más hambrienta.")
+    elif G.simon_encontrado and n_vivos >= 1:
+        titulo("L O   Q U E   Q U E D A")
+        if n_vivos == 1:
+            nombre = vivos[0]
+            narrar(f"Solo quedaban {nombre} y Simón. Dos personas en una "
+                   f"mansión que olía a sangre y a barniz viejo. Los demás "
+                   f"estaban muertos. Cada uno en su rincón.")
+        else:
+            narrar(f"Solo quedaban {', '.join(vivos)} y Simón. Los que "
+                   f"faltaban estaban repartidos por la mansión como "
+                   f"ofrendas que nadie pidió.")
+        narrar("Caminaron hacia la puerta. Simón apenas podía sostenerse.")
+        time.sleep(0.5)
+        narrar("La puerta estaba cerrada. Con llave. Desde afuera.")
+        narrar("Simón no pareció sorprendido.")
+    else:
+        titulo_horror("L A   M A N S I Ó N   G A N Ó")
+        narrar("Nadie encontró a Simón. El grupo se deshizo antes de "
+               "llegar al ala norte. Uno a uno, el aislamiento los separó "
+               "y la oscuridad hizo el resto.")
+        narrar("Cinco personas entraron buscando algo. Cinco cuerpos "
+               "quedaron repartidos por la mansión como piezas de un "
+               "rompecabezas que nadie armó.")
     pausa()
 
-    narrar(f"{nombre} desató a Simón en silencio. Las cuerdas cayeron "
-           f"al suelo con un sonido blando, húmedo. Simón no dijo nada. "
-           f"No podía. Tenía los labios tan agrietados que moverlos "
-           f"le abría heridas nuevas sobre heridas viejas.")
-    narrar("Caminaron por el pasillo del ala norte. Pasaron junto a las "
-           "puertas cerradas. Detrás de una de ellas, un olor que "
-           f"{nombre} reconoció y que intentó no reconocer.")
-    pausa()
+    # ── ACTO 2: La última noche ──
+    if G.simon_encontrado and n_vivos >= 1:
+        pantalla_negra(1.5)
+        titulo("L A   Ú L T I M A   N O C H E")
+        time.sleep(1)
+        narrar("No pudieron salir. Las ventanas estaban selladas desde "
+               "afuera con tablas que no estaban ahí cuando llegaron. "
+               "Los coches tenían las ruedas reventadas. El camino de "
+               "tierra terminaba en un derrumbe que no existía esa tarde.")
+        narrar("Alguien había preparado todo mientras ellos buscaban "
+               "a Simón. Alguien que conocía cada minuto de su recorrido.")
+        pausa()
+        if n_vivos >= 3:
+            narrar("Se reunieron en el lobby. Encendieron todas las velas "
+                   "que encontraron. Se sentaron en los sillones de cuero "
+                   "rojo, los mismos donde se sentaron esa tarde cuando "
+                   "todavía eran cinco desconocidos con secretos.")
+            narrar("Nadie durmió. Nadie habló. Solo esperaron.")
+            time.sleep(0.5)
+            narrar("A las tres de la mañana, las velas se apagaron. "
+                   "Todas. Al mismo tiempo. Como si alguien hubiera "
+                   "aspirado el aire de la habitación.")
+            time.sleep(0.8)
+            beep()
+            glitch(intensidad=3)
+            narrar("En la oscuridad, pasos. No de afuera. De adentro. "
+                   "De las paredes. Del techo. Del suelo bajo sus pies. "
+                   "Como si la mansión entera se hubiera puesto en "
+                   "movimiento.")
+        else:
+            nombre = vivos[0]
+            narrar(f"{nombre} intentó forzar una ventana. El cristal no "
+                   f"cedió. Golpeó con una silla. Nada. El cristal "
+                   f"absorbía los golpes como si fuera blando.")
+            narrar("Simón se sentó en el suelo del lobby. No intentó "
+                   "ayudar. No intentó escapar. Se quedó quieto, con "
+                   "la mirada fija en la escalera, como si esperara "
+                   "a alguien que sabía que iba a bajar.")
+            time.sleep(0.5)
+            dialogo_roto("SIMÓN", "...ya viene.")
+        pausa()
 
-    narrar("Bajaron las escaleras. Cruzaron el lobby. La puerta "
-           "principal estaba abierta. El aire de la noche entraba "
-           "como una invitación.")
-    narrar(f"{nombre} dio un paso hacia afuera.")
-    time.sleep(0.5)
-    narrar("Simón no.")
-    time.sleep(0.8)
-    narrar(f"{nombre} se giró. Simón estaba de pie en el centro del "
-           f"lobby, mirándolo. En la penumbra, su rostro tenía una "
-           f"expresión que {nombre} no le había visto en toda la noche. "
-           f"No era alivio. No era gratitud. No era miedo.")
-    time.sleep(0.5)
-    narrar("Era lástima.")
-    pausa()
+        # ── La muerte de los sobrevivientes ──
+        pantalla_negra(2)
+        beep()
+        titulo_horror("A M A N E C E R")
+        time.sleep(1.5)
+        narrar("La policía llegó a la mansión tres días después, "
+               "siguiendo una denuncia anónima. La puerta principal "
+               "estaba abierta de par en par. Las tablas de las ventanas "
+               "habían desaparecido. El derrumbe del camino no existía.")
+        narrar("Como si nada hubiera pasado.")
+        pausa()
+        narrar("Encontraron los cuerpos.")
+        time.sleep(1)
+        if n_muertos > 0:
+            narrar(f"Primero los de {', '.join(muertos)}, en los lugares "
+                   f"donde el grupo los había encontrado. Exactamente "
+                   f"como los dejaron. Intactos.")
+        for nombre in vivos:
+            time.sleep(0.5)
+            _muerte_final(nombre)
+        # Simón
+        time.sleep(1)
+        narrar("Y a Simón.")
+        time.sleep(0.5)
+        narrar("Sentado en el escalón de la entrada. Con las muñecas "
+               "todavía enrojecidas por las cuerdas. Los ojos abiertos. "
+               "Mirando hacia el camino de tierra como si esperara "
+               "a alguien que nunca llegó.")
+        narrar("Tenía un pincel en la mano derecha. Mojado en pintura "
+               "roja. Y en el suelo, a sus pies, un cuadro pequeño "
+               "recién terminado.")
+        narrar("El cuadro mostraba seis personas sentadas en un lobby. "
+               "Todas muertas. Todas con los ojos abiertos. Todas "
+               "mirando al espectador.")
+        time.sleep(0.5)
+        narrar("En el margen inferior, con la misma pintura roja:")
+        texto_sangre("Los que llegaron a buscar.")
+        pausa()
 
-    dialogo_roto("SIMÓN", "...no salgas.")
-    acotacion("Dos palabras. Dichas con el esfuerzo de alguien que "
-              "apenas puede hablar. Pero que eligió usar lo que le "
-              "queda de voz para decir exactamente eso.")
-    narrar(f"{nombre} lo miró sin entender.")
-    dialogo_roto("SIMÓN", "...él está... afuera.")
-    time.sleep(1)
-
-    narrar(f"{nombre} se giró hacia la puerta abierta. Hacia la "
-           f"oscuridad del jardín. Hacia el camino de tierra que "
-           f"llevaba a la carretera.")
-    narrar("Y vio algo.")
-    time.sleep(0.5)
-    narrar("Una silueta. De pie junto al coche de Robert. Inmóvil. "
-           "Mirando hacia la puerta. Mirando hacia donde estaba "
-           f"{nombre}. Esperando.")
-    time.sleep(0.5)
-    narrar("La silueta levantó una mano. Despacio. Y saludó.")
-    time.sleep(1)
+    # ── ACTO 3: La verdad ──
+    pantalla_negra(2)
     beep()
+    titulo_horror("L A   V E R D A D")
+    time.sleep(1.5)
+    narrar("La investigación de Lisa —lo que quedaba de ella en su "
+           "libreta manchada— conectó las piezas. La carpeta de la "
+           "galería. El libro de contabilidad. La carta del padre. "
+           "Las joyas. El relicario.")
+    narrar("Cada objeto que los cinco vinieron a buscar había sido "
+           "colocado deliberadamente en la mansión. En el lugar exacto "
+           "donde cada uno lo encontraría. Como cebo en una trampa "
+           "diseñada con la paciencia de alguien que conoce a sus "
+           "presas mejor de lo que ellas se conocen a sí mismas.")
+    pausa()
+    narrar("La noticia de la muerte de Simón fue falsa. Enviada desde "
+           "una oficina de correos a las afueras de la ciudad, tres "
+           "días antes de la reunión. El sobre tenía huellas. Las "
+           "huellas coincidían con las de Simón.")
+    time.sleep(0.5)
+    escribir_lento("Simón envió la noticia de su propia muerte.")
+    time.sleep(1)
+    escribir_lento("Simón preparó los objetos.")
+    time.sleep(0.5)
+    escribir_lento("Simón los atrajo a la mansión.")
+    time.sleep(1.5)
+    pausa()
+    narrar("Pero Simón no se ató a sí mismo a una silla en el ala norte. "
+           "Alguien más hizo eso. Alguien que Simón invitó a la mansión "
+           "antes que a los cinco. Alguien que llegó primero.")
+    time.sleep(0.5)
+    narrar("La sexta persona de la fotografía.")
+    time.sleep(0.5)
+    narrar("La del rostro cubierto con cinta negra.")
+    time.sleep(1)
+    if G.tiene("nota_abrigo"):
+        narrar("La nota en el abrigo del perchero. 'No confíes en nadie "
+               "que llegue antes que tú.' No era una advertencia de Simón "
+               "para los visitantes.")
+        escribir_lento("Era una advertencia de Simón para sí mismo.")
+        escribir_lento("Una advertencia que no siguió.")
+    pausa()
+
+    # ── ACTO 4: El ciclo ──
+    pantalla_negra(2)
     glitch(intensidad=4)
-
-    narrar(f"{nombre} cerró la puerta.")
     time.sleep(0.5)
-    narrar("Desde adentro.")
+    limpiar()
+    print()
     time.sleep(1)
-
-    escribir_lento(f"{nombre} nunca salió de la mansión.")
-    time.sleep(0.5)
-    escribir_lento("Simón tampoco.")
-    time.sleep(0.5)
-    escribir_lento("Algunas noches, desde la carretera, se puede ver "
-                   "una luz en una de las ventanas del ala norte. "
-                   "Y otra luz, nueva, en el lobby.")
-    time.sleep(0.5)
-    escribir_lento("Dos luces donde antes había una.")
-    time.sleep(1.5)
-    print(f"\n{'F I N':^{W}}\n")
-    print(f"\033[2m{'La Mansión de Simón':^{W}}\033[0m\n")
-
-
-# ── FINAL 5: La mansión gana ────────────────────────────────
-
-def final_mansion():
-    pantalla_negra(3)
-    titulo_horror("L O   Q U E   L A   M A N S I Ó N   S E   Q U E D Ó",
-                  "Simón no fue encontrado")
-    time.sleep(1.5)
-    narrar("La soledad fue el arma más eficaz. No el asesino, no la "
-           "oscuridad, no los secretos. La soledad. Pura, simple, "
-           "devastadora.")
-    narrar("Uno a uno, el grupo cayó. Cada uno se separó por su razón "
-           "y fue encontrado sin vida en algún rincón de la mansión. "
-           "Cinco personas que entraron buscando algo. Cinco cuerpos "
-           "que la mansión se quedó.")
+    narrar("El caso fue archivado. Seis muertes en una propiedad rural. "
+           "Circunstancias por determinar. Sin sospechosos. Sin testigos. "
+           "Sin explicación.")
+    narrar("La mansión fue clausurada. Las puertas selladas. Las ventanas "
+           "tapiadas. Un cartel de 'Prohibido el paso' clavado en la reja.")
     pausa()
-
-    narrar("Simón sigue en la habitación del ala norte. Atado. Vendado. "
-           "Vivo. Escuchó todo. Los pasos. Las voces. Las discusiones. "
-           "Los gritos que se cortaron de golpe. El silencio que vino "
-           "después de cada uno.")
-    narrar("Escuchó morir a cinco personas que vinieron a buscarlo "
-           "y no pudieron encontrarse entre ellas primero.")
-    pausa()
-
-    narrar("Pasaron los días. Nadie más vino. El agua del vaso en la "
-           "mesita de noche se evaporó. Las flores secas del lobby "
-           "se deshicieron en polvo. La sangre del suelo de la galería "
-           "se oscureció hasta volverse negra.")
-    narrar("Simón dejó de forcejear con las cuerdas el tercer día. "
-           "Dejó de gritar el quinto. Dejó de respirar el séptimo.")
+    narrar("Seis meses después, el cartel había desaparecido.")
+    time.sleep(0.5)
+    narrar("Las puertas estaban abiertas.")
+    time.sleep(0.5)
+    narrar("Y cinco personas recibieron invitaciones.")
     time.sleep(1)
-    narrar("O eso es lo que cualquiera asumiría.")
-    pausa()
-
-    narrar("Porque seis meses después, un nuevo grupo de personas "
-           "recibió invitaciones. Cinco sobres. Cinco nombres. "
-           "Cinco razones para ir a una mansión antigua en las "
-           "afueras de la ciudad.")
+    narrar("Cinco sobres. Cinco nombres nuevos. Cinco razones para ir "
+           "a una mansión antigua en las afueras de la ciudad.")
     narrar("Las invitaciones estaban escritas a mano. Con una letra "
            "que nadie reconoció. Pero que, si alguien hubiera comparado "
-           "con la nota adhesiva del monitor del estudio, habría "
-           "resultado idéntica.")
+           "con la nota del tablón del estudio, habría resultado "
+           "idéntica.")
     time.sleep(0.5)
-    narrar("La letra de Simón.")
+    escribir_lento("La letra de Simón.")
+    time.sleep(0.5)
+    escribir_lento("Un hombre que llevaba tres meses muerto.")
     time.sleep(1)
     beep()
     glitch(intensidad=5)
-
     narrar("La mansión los esperaba. Limpia. Ordenada. Con flores "
            "frescas en el jarrón del lobby y un abrigo colgado en "
-           "el perchero. En el bolsillo interior del abrigo, una nota "
-           "manuscrita sin firma:")
+           "el perchero.")
+    time.sleep(0.5)
+    narrar("En el bolsillo interior del abrigo, una nota manuscrita "
+           "sin firma:")
     time.sleep(0.5)
     texto_sangre("No confíes en nadie que llegue antes que tú.")
     time.sleep(1)
-
-    narrar("La misma nota. La misma mansión. La misma trampa.")
-    time.sleep(0.5)
-    escribir_lento("Nuevos nombres. Nuevos secretos.")
+    narrar("La misma nota.")
     time.sleep(0.3)
-    escribir_lento("El mismo final.")
+    narrar("La misma mansión.")
+    time.sleep(0.3)
+    narrar("La misma trampa.")
     time.sleep(1.5)
-    print(f"\n{'F I N':^{W}}\n")
+    pantalla_negra(1)
+    limpiar()
+    print("\n" * 3)
+    time.sleep(1)
+    escribir_lento("Nuevos nombres.")
+    time.sleep(0.5)
+    escribir_lento("Nuevos secretos.")
+    time.sleep(1)
+    escribir_lento("El mismo final.")
+    time.sleep(2)
+    print(f"\n\n{'F I N':^{W}}\n")
+    time.sleep(1)
     print(f"\033[2m{'La Mansión de Simón':^{W}}\033[0m\n")
+    time.sleep(1)
+
+
+def _muerte_final(nombre):
+    """Muerte personalizada de cada sobreviviente en el desenlace."""
+    muertes = {
+        "Ben": ("A Ben lo encontraron en el estudio, sentado frente al "
+                "libro de contabilidad abierto. Tenía un bolígrafo rojo "
+                "en la mano. Había escrito la misma palabra en cada "
+                "página, cientos de veces, hasta que la tinta se acabó "
+                "y siguió escribiendo con la presión del bolígrafo seco "
+                "sobre el papel: 'SALDADO. SALDADO. SALDADO.'",
+                "Sus ojos estaban abiertos. Su boca, congelada en una "
+                "sonrisa que no era suya."),
+        "Lisa": ("A Lisa la encontraron en la galería, de pie frente al "
+                 "cuadro de los cinco visitantes. Tenía su libreta abierta "
+                 "contra el pecho, apretada con ambas manos. La última "
+                 "página estaba llena de una sola frase repetida con letra "
+                 "cada vez más pequeña, cada vez más apretada, hasta "
+                 "volverse ilegible: 'Yo soy la sexta. Yo soy la sexta. "
+                 "Yo soy la sexta.'",
+                 "No tenía heridas. Pero su expresión era la de alguien "
+                 "que entendió algo que no debería haber entendido."),
+        "Robert": ("A Robert lo encontraron en el lobby, sentado en el "
+                   "sillón más alejado de la chimenea. El mismo donde se "
+                   "sentó cuando llegó. Tenía la carta del padre en las "
+                   "manos, doblada con cuidado. Pero la carta ya no decía "
+                   "lo mismo. Alguien había reescrito cada línea durante "
+                   "la noche, con la misma letra del padre, con las mismas "
+                   "palabras, excepto el nombre del destinatario.",
+                   "Ya no decía Robert. Decía Simón."),
+        "Ana": ("A Ana la encontraron en la habitación de Simón, acostada "
+                "en la cama que Simón nunca deshizo. Tenía el estuche de "
+                "joyas abierto sobre el pecho. Las joyas habían vuelto. "
+                "Todas. Intactas. Colocadas con cuidado sobre su cuerpo "
+                "como adornos fúnebres: el collar sobre la garganta, "
+                "los anillos en los dedos, los pendientes en las orejas.",
+                "Alguien la vistió de muerta mientras dormía. "
+                "O mientras no podía moverse."),
+        "Lucas": ("A Lucas lo encontraron en la sala de vigilancia, "
+                  "sentado en la silla frente a las mirillas. Tenía el "
+                  "relicario abierto en la mano. Pero la inscripción "
+                  "había cambiado. Ya no decía 'Para Lucas. Siempre.' "
+                  "Decía 'Para Lucas. Por fin.'",
+                  "En la mirilla central, el espejo seguía mostrando "
+                  "la habitación del ala norte. La silla donde estuvo "
+                  "Simón. Pero ahora había alguien sentado en ella. "
+                  "Alguien que miraba directamente hacia la mirilla. "
+                  "Directamente hacia Lucas. Sonriendo."),
+    }
+    if nombre in muertes:
+        desc, detalle = muertes[nombre]
+        glitch(intensidad=2)
+        narrar(desc)
+        time.sleep(0.5)
+        acotacion(detalle)
+        pausa()
+
 
 # ══════════════════════════════════════════════════════════════
 #  UTILIDADES DE CIERRE Y RESUMEN
@@ -1985,10 +1949,62 @@ def _cierre_capitulo():
     abandonado = G.verificar_abandonos()
     if abandonado:
         _escena_abandono(abandonado)
-        # El asesino aprovecha cuando alguien se separa
         _evento_tension_asesino(abandonado)
+    else:
+        _atmosfera_entre_capitulos()
     G.mostrar_grupo()
     pausa()
+
+
+def _atmosfera_entre_capitulos():
+    """Detalles de época y tensión entre capítulos cuando nadie muere."""
+    cap = G.capitulo
+    if cap == 1:
+        separador()
+        narrar("Afuera, el sol de la tarde se esconde detrás de las colinas. "
+               "La radio del lobby emite un chasquido y, por un instante, "
+               "entre la estática, se escucha algo que podría ser música. "
+               "Un vals. Lejano. Como si viniera de otra época o de otra "
+               "habitación de la mansión.")
+        narrar("Luego, silencio. Solo el crujir de la madera vieja "
+               "y el tic-tac del reloj de péndulo del pasillo, que nadie "
+               "recuerda haber escuchado antes.")
+    elif cap == 2:
+        separador()
+        narrar("La luz de las lámparas de aceite proyecta sombras largas "
+               "en las paredes. El olor a queroseno se mezcla con algo "
+               "más antiguo: humedad, papel viejo, y debajo de todo, "
+               "algo dulce y metálico que nadie quiere nombrar.")
+        narrar("En algún lugar de la mansión, una puerta se cierra sola. "
+               "El grupo se mira. Nadie dice nada. Pero todos contaron "
+               "las personas en la habitación. Todos siguen siendo "
+               "los mismos. ¿Verdad?")
+    elif cap == 3:
+        separador()
+        narrar("La oscuridad de la noche se ha instalado por completo. "
+               "Las ventanas son rectángulos negros que reflejan el "
+               "interior de la mansión como espejos oscuros. Si miras "
+               "demasiado tiempo, juras que los reflejos se mueven "
+               "medio segundo después que tú.")
+        narrar("El gramófono del lobby empieza a girar solo. La aguja "
+               "baja sobre el disco. No hay música. Solo un susurro "
+               "constante, rítmico, como una respiración amplificada "
+               "por la bocina de latón.")
+        acotacion("Nadie lo apaga. Nadie se atreve a acercarse.")
+    elif cap == 4:
+        separador()
+        narrar("El reloj de péndulo del pasillo se detuvo. Marca las "
+               "diez y cuarto. Pero afuera la oscuridad es la de la "
+               "medianoche. El tiempo dentro de la mansión ya no "
+               "coincide con el tiempo de afuera.")
+        narrar("Alguien nota que las fotografías del tablero de corcho "
+               "del estudio han cambiado de posición. La sexta foto, "
+               "la de la cinta negra, ahora está en el centro. "
+               "Y la cinta se ha despegado parcialmente.")
+        narrar("Debajo de la cinta, apenas visible, hay un ojo. "
+               "Pintado. Abierto. Mirando directamente hacia la puerta.")
+        acotacion("Nadie recuerda haberla movido. Nadie quiere "
+                  "preguntar quién lo hizo.")
 
 
 def _evento_tension_asesino(abandonado):
@@ -2085,12 +2101,11 @@ def _escena_abandono(nombre):
             "vieron la mancha. Se extendía desde debajo de ella como una "
             "sombra oscura que crecía despacio sobre la madera del suelo. "
             "Tenía las manos sobre el abdomen, presionando algo que ya "
-            "no podía contener. Su grabadora estaba encendida en el suelo "
-            "a medio metro, todavía grabando. La reproducción revelaría "
-            "después sus propios pasos, luego otros pasos más pesados "
-            "acercándose por detrás, un sonido húmedo y breve —como "
-            "tela rasgándose—, un jadeo ahogado, y después solo el goteo "
-            "lento y constante de algo cayendo al suelo.",
+            "no podía contener. Su libreta estaba abierta en el suelo "
+            "a medio metro. La última línea escrita con letra temblorosa "
+            "decía: 'Hay alguien detrás de m' — la frase se cortaba en "
+            "un trazo que bajaba hasta el borde de la página, como si "
+            "la mano hubiera sido arrancada del papel.",
 
             "La carpeta con la evidencia no estaba por ningún lado. "
             "Pero en la pared, sobre la cabeza de Lisa, alguien había "
@@ -2152,25 +2167,26 @@ def _escena_abandono(nombre):
             "cuadro del niño con el relicario. Inmóvil. Cuando se "
             "giraron de nuevo, Lucas ya no estaba.",
 
-            "Su mochila seguía en el suelo del lobby. Abierta. "
-            "Con un rastro de gotas oscuras que salía de ella hacia "
+            "Su maletín seguía en el suelo del lobby. Abierto. "
+            "Con un rastro de gotas oscuras que salía de él hacia "
             "la puerta del sótano.",
 
             "Lo encontraron al pie de la escalera que baja a la sala "
-            "de cámaras. Estaba de espaldas, con los brazos extendidos "
+            "de vigilancia. Estaba de espaldas, con los brazos extendidos "
             "como si hubiera intentado agarrarse de algo al caer. "
             "Tenía marcas en las muñecas —rojas, profundas, del tipo "
             "que deja una cuerda fina cuando alguien forcejea— aunque "
-            "no había cuerda a la vista. En la pantalla del monitor "
-            "más cercano, la cámara mostraba el pasillo por donde Lucas "
-            "había bajado. Y detrás de él, en la grabación, una silueta "
-            "que lo seguía a menos de un metro. Tan cerca que podría "
+            "no había cuerda a la vista. En la mirilla más cercana, "
+            "el reflejo del espejo mostraba el pasillo por donde Lucas "
+            "había bajado. Y en el polvo del suelo, dos juegos de "
+            "huellas: las de Lucas, y otras más grandes, más pesadas, "
+            "que caminaban justo detrás de las suyas. Tan cerca que podría "
             "haberlo tocado. Tan cerca que probablemente lo hizo.",
 
             "El relicario estaba en su mano cerrada. Apretado con la "
             "fuerza de alguien que se aferra a lo último que le importa. "
             "La inscripción 'Para Lucas. Siempre.' brillaba bajo la luz "
-            "del monitor. Lucas murió agarrado a un nombre que ni "
+            "de la vela caída. Lucas murió agarrado a un nombre que ni "
             "siquiera era el suyo."
         ),
     }
@@ -2258,61 +2274,82 @@ def resumen_final():
 
 def post_creditos():
     """El mensaje final que el jugador no espera."""
-    # Resumen normal primero
     resumen_final()
     print(f"\n{'Gracias por jugar La Mansión de Simón.':^{W}}")
-    print(f"\033[2m{'Una historia de secretos, silencios y supervivencia':^{W}}\033[0m\n")
+    print(f"\033[2m{'Europa, 1943':^{W}}\033[0m\n")
     pausa()
 
-    # El jugador cree que terminó. Pantalla negra larga.
-    pantalla_negra(4)
+    # El jugador cree que terminó.
+    pantalla_negra(5)
 
-    # Entonces...
+    # El gramófono
     time.sleep(1)
-    glitch(intensidad=2)
+    sys.stdout.write("  ")
+    for c in "...":
+        sys.stdout.write(c); sys.stdout.flush()
+        time.sleep(0.8)
+    print()
     time.sleep(2)
 
-    # Texto que aparece letra por letra, muy lento
-    msg1 = "¿Sigues ahí?"
+    # Un sonido
     sys.stdout.write("  ")
-    for c in msg1:
+    for c in "(Se escucha un crujido. Como una puerta que se abre.)":
         sys.stdout.write(c); sys.stdout.flush()
-        time.sleep(0.15)
+        time.sleep(0.04)
     print()
+    time.sleep(3)
+
+    limpiar()
+    time.sleep(2)
+
+    # Texto lento, como si alguien escribiera en una máquina de escribir
+    def maquina(texto, pausa_entre=0.06):
+        sys.stdout.write("  ")
+        for c in texto:
+            sys.stdout.write(c); sys.stdout.flush()
+            if c in '.?!':
+                time.sleep(0.5)
+            elif c == ',':
+                time.sleep(0.2)
+            elif c == ' ':
+                time.sleep(0.1)
+            else:
+                time.sleep(pausa_entre)
+        print()
+
+    maquina("¿Sigues ahí?")
     time.sleep(3)
 
     glitch(intensidad=1)
-    time.sleep(1)
+    time.sleep(1.5)
 
-    msg2 = "Bien."
-    sys.stdout.write("  ")
-    for c in msg2:
-        sys.stdout.write(c); sys.stdout.flush()
-        time.sleep(0.2)
-    print()
+    maquina("Bien.", 0.15)
     time.sleep(3)
 
-    # Pantalla negra
     limpiar()
     time.sleep(2)
 
-    # El mensaje que hiela la sangre
-    escribir_miedo("Creíste que esto era un juego.")
+    maquina("Quiero contarte algo.")
     time.sleep(2)
 
-    escribir_miedo("Que las decisiones eran tuyas.")
+    maquina("Algo que los personajes no pudieron decirte.")
     time.sleep(2)
+
+    maquina("Porque estaban muertos cuando lo entendieron.")
+    time.sleep(3)
 
     limpiar()
+    time.sleep(2)
+
+    # La revelación
+    escribir_miedo("Cada decisión que tomaste esta noche fue observada.")
     time.sleep(1.5)
 
-    escribir_miedo("Pero piénsalo.")
-    time.sleep(1)
-
-    escribir_miedo("Cada puerta que abriste, alguien la dejó abierta para ti.")
+    escribir_miedo("Cada puerta que abriste, alguien la dejó abierta "
+                   "para ti.")
     time.sleep(1.5)
 
-    escribir_miedo("Cada pista que encontraste, alguien la puso donde "
+    escribir_miedo("Cada pista que encontraste fue colocada donde "
                    "sabía que mirarías.")
     time.sleep(1.5)
 
@@ -2323,90 +2360,134 @@ def post_creditos():
     limpiar()
     time.sleep(2)
 
-    # Glitch fuerte
-    glitch(intensidad=5)
+    escribir_miedo("Tú decidiste quién vivía y quién moría.")
+    time.sleep(1.5)
+
+    escribir_miedo("Y lo hiciste sin dudar.")
+    time.sleep(1.5)
+
+    escribir_miedo("Como si fuera un juego.")
+    time.sleep(2)
+
+    limpiar()
+    time.sleep(2.5)
+
+    # El golpe
+    glitch(intensidad=4)
     time.sleep(0.5)
     beep()
-
-    # El nombre del jugador
-    limpiar()
-    time.sleep(1)
-    sys.stdout.write("  ")
-    for c in "¿Quieres saber quién es la sexta persona de la fotografía?":
-        sys.stdout.write(c); sys.stdout.flush()
-        time.sleep(0.05)
-    print()
-    time.sleep(3)
 
     limpiar()
     time.sleep(1.5)
 
-    sys.stdout.write("  ")
-    for c in "La que tiene el rostro cubierto con cinta negra.":
-        sys.stdout.write(c); sys.stdout.flush()
-        time.sleep(0.06)
-    print()
+    maquina("¿Recuerdas la sexta fotografía?")
+    time.sleep(2)
+
+    maquina("La del tablero de corcho en el estudio.")
+    time.sleep(1.5)
+
+    maquina("La que tenía el rostro cubierto con cinta negra.")
+    time.sleep(2.5)
+
+    limpiar()
+    time.sleep(2)
+
+    maquina("¿Quieres saber quién es?")
     time.sleep(3)
 
     limpiar()
     time.sleep(2)
 
-    # El golpe final
     glitch(intensidad=3)
+    time.sleep(0.3)
+
+    # El momento
+    print("\n" * 4)
+    texto = "Eres tú."
+    centro = (W - len(texto)) // 2
+    sys.stdout.write(" " * centro)
+    for c in texto:
+        sys.stdout.write(c); sys.stdout.flush()
+        time.sleep(0.4)
+    print()
+    beep()
+    time.sleep(4)
+
+    limpiar()
+    time.sleep(2)
+
+    # La explicación que hiela
+    escribir_miedo("Simón te pintó antes de que llegaras.")
+    time.sleep(2)
+
+    escribir_miedo("No a Ben. No a Lisa. No a Robert, ni a Ana, "
+                   "ni a Lucas.")
+    time.sleep(1.5)
+
+    escribir_miedo("A ti.")
+    time.sleep(2)
+
+    escribir_miedo("El que observa. El que explora. El que decide "
+                   "quién sobrevive.")
+    time.sleep(2)
+
+    limpiar()
+    time.sleep(2)
+
+    escribir_miedo("Tú eras la sexta persona en la mansión.")
+    time.sleep(1.5)
+
+    escribir_miedo("Tú estuviste ahí toda la noche.")
+    time.sleep(1.5)
+
+    escribir_miedo("Abriendo puertas. Leyendo cartas. Eligiendo "
+                   "a quién ignorar.")
+    time.sleep(2)
+
+    limpiar()
+    time.sleep(2)
+
+    glitch(intensidad=5)
+    beep()
     time.sleep(0.5)
 
-    texto_final = "Eres tú."
-    centro = (W - len(texto_final)) // 2
-    print("\n" * 5)
-    sys.stdout.write(" " * centro)
-    for c in texto_final:
+    limpiar()
+    time.sleep(2)
+
+    escribir_miedo("Y ahora que terminó...")
+    time.sleep(2)
+
+    escribir_miedo("¿Estás seguro de que saliste?")
+    time.sleep(3)
+
+    limpiar()
+    time.sleep(3)
+
+    # El último detalle
+    sys.stdout.write("  ")
+    for c in "Mira detrás de ti.":
         sys.stdout.write(c); sys.stdout.flush()
-        time.sleep(0.3)
+        time.sleep(0.12)
     print()
     beep()
-    time.sleep(3)
-
-    # Pantalla negra final
-    limpiar()
-    time.sleep(2)
-
-    # Último mensaje
-    print()
-    sys.stdout.write("  ")
-    for c in "Simón te pintó antes de que llegaras.":
-        sys.stdout.write(c); sys.stdout.flush()
-        time.sleep(0.06)
-    print()
-    time.sleep(2)
-
-    sys.stdout.write("  ")
-    for c in "Sabía que vendrías.":
-        sys.stdout.write(c); sys.stdout.flush()
-        time.sleep(0.08)
-    print()
-    time.sleep(2)
-
-    sys.stdout.write("  ")
-    for c in "Sabía que te quedarías hasta el final.":
-        sys.stdout.write(c); sys.stdout.flush()
-        time.sleep(0.06)
-    print()
-    time.sleep(3)
+    time.sleep(5)
 
     limpiar()
-    time.sleep(1)
+    time.sleep(2)
+
     glitch(intensidad=6)
-    beep()
     time.sleep(0.3)
 
     limpiar()
-    time.sleep(2)
+    time.sleep(3)
 
-    # La última línea
+    # Silencio largo. Luego el cierre.
     print(f"\n\n\033[2m{'La mansión sigue abierta.':^{W}}\033[0m")
     time.sleep(2)
     print(f"\033[2m{'La puerta nunca se cerró.':^{W}}\033[0m")
-    time.sleep(3)
+    time.sleep(2)
+    print(f"\033[2m{'Y tú sigues adentro.':^{W}}\033[0m")
+    time.sleep(4)
     print()
 
 

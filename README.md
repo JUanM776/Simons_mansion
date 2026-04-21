@@ -113,17 +113,15 @@ Cada capítulo termina con una decisión que afecta directamente:
 
 ---
 
-## Finales
+## El Final
 
-El juego tiene **5 finales** que dependen enteramente de tus decisiones. Ninguno es seguro. Solo uno tiene un hilo de esperanza, y aun ese tiene un precio.
+El juego tiene **un solo final**. No importa lo que hagas, la mansión gana. Lo que cambia según tus decisiones es cómo llegas ahí, cuántos sobreviven, y qué tan profundo cavas en la verdad antes de que la verdad te encuentre a ti.
 
-| Final | Condición |
-|-------|-----------|
-| **La Mansión los Soltó** | Todos vivos, todos los objetos, Simón rescatado |
-| **Los Marcados** | 4+ sobrevivientes, Simón rescatado |
-| **La Herencia** | 2-3 sobrevivientes, Simón rescatado |
-| **El Espejo** | 1 sobreviviente, Simón rescatado |
-| **Lo que la Mansión se Quedó** | Simón no fue encontrado |
+Tus decisiones determinan:
+- Cuántos llegan vivos al desenlace
+- Qué pistas descubriste sobre la verdadera naturaleza de Simón
+- Qué tan perturbadora es la revelación final
+- Cuánto de la verdad puedes soportar antes de que la mansión cierre el ciclo
 
 ---
 
