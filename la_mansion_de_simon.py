@@ -2401,17 +2401,24 @@ def post_creditos():
     glitch(intensidad=3)
     time.sleep(0.3)
 
-    # El momento
-    print("\n" * 4)
-    texto = "Eres tú."
-    centro = (W - len(texto)) // 2
-    sys.stdout.write(" " * centro)
-    for c in texto:
-        sys.stdout.write(c); sys.stdout.flush()
-        time.sleep(0.4)
-    print()
+    # El momento — ERES TÚ en grande, rojo, que ocupe la pantalla
+    limpiar()
+    time.sleep(0.5)
     beep()
-    time.sleep(4)
+    eres_tu = [
+        "  ███████ ██████  ███████ ███████     ████████ ██    ██ ",
+        "  ██      ██   ██ ██      ██             ██    ██    ██ ",
+        "  █████   ██████  █████   ███████        ██    ██    ██ ",
+        "  ██      ██   ██ ██           ██        ██    ██    ██ ",
+        "  ███████ ██   ██ ███████ ███████        ██     ██████  ",
+    ]
+    print("\n" * 2)
+    for linea in eres_tu:
+        print(f"\033[31m\033[1m{linea}\033[0m")
+        time.sleep(0.15)
+    print("\n")
+    beep()
+    time.sleep(5)
 
     limpiar()
     time.sleep(2)
@@ -2463,19 +2470,58 @@ def post_creditos():
     limpiar()
     time.sleep(3)
 
-    # El último detalle
-    sys.stdout.write("  ")
-    for c in "Mira detrás de ti.":
-        sys.stdout.write(c); sys.stdout.flush()
-        time.sleep(0.12)
+    # MIRA DETRÁS DE TI — gigante, rojo, impacto total
+    limpiar()
+    time.sleep(1)
+    glitch(intensidad=4)
+    time.sleep(0.3)
+    beep()
+
+    mira = [
+        " ███    ███ ██ ██████   █████  ",
+        " ████  ████ ██ ██   ██ ██   ██ ",
+        " ██ ████ ██ ██ ██████  ███████ ",
+        " ██  ██  ██ ██ ██   ██ ██   ██ ",
+        " ██      ██ ██ ██   ██ ██   ██ ",
+    ]
+    detras = [
+        " ██████  ███████ ████████ ██████   █████  ███████ ",
+        " ██   ██ ██         ██    ██   ██ ██   ██ ██      ",
+        " ██   ██ █████      ██    ██████  ███████ ███████ ",
+        " ██   ██ ██         ██    ██   ██ ██   ██      ██ ",
+        " ██████  ███████    ██    ██   ██ ██   ██ ███████ ",
+    ]
+    de_ti = [
+        " ██████  ███████     ████████ ██ ",
+        " ██   ██ ██             ██    ██ ",
+        " ██   ██ █████          ██    ██ ",
+        " ██   ██ ██             ██    ██ ",
+        " ██████  ███████        ██    ██ ",
+    ]
+
+    print("\n")
+    for linea in mira:
+        print(f"\033[37m\033[1m{linea}\033[0m")
+        time.sleep(0.1)
+    print()
+    time.sleep(0.5)
+    for linea in detras:
+        print(f"\033[31m\033[1m{linea}\033[0m")
+        time.sleep(0.1)
+    print()
+    time.sleep(0.5)
+    for linea in de_ti:
+        print(f"\033[31m\033[1m{linea}\033[0m")
+        time.sleep(0.1)
     print()
     beep()
-    time.sleep(5)
+    time.sleep(6)
 
     limpiar()
     time.sleep(2)
 
-    glitch(intensidad=6)
+    glitch(intensidad=8)
+    beep()
     time.sleep(0.3)
 
     limpiar()
@@ -2483,11 +2529,17 @@ def post_creditos():
 
     # Silencio largo. Luego el cierre.
     print(f"\n\n\033[2m{'La mansión sigue abierta.':^{W}}\033[0m")
-    time.sleep(2)
+    time.sleep(2.5)
     print(f"\033[2m{'La puerta nunca se cerró.':^{W}}\033[0m")
-    time.sleep(2)
-    print(f"\033[2m{'Y tú sigues adentro.':^{W}}\033[0m")
-    time.sleep(4)
+    time.sleep(2.5)
+
+    # La última línea — en rojo
+    print()
+    time.sleep(1)
+    tu_adentro = "Y  T Ú  S I G U E S  A D E N T R O ."
+    print(f"\033[31m\033[1m{tu_adentro:^{W}}\033[0m")
+    beep()
+    time.sleep(5)
     print()
 
 
